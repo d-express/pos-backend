@@ -24,7 +24,7 @@ export class Server {
     this.port = ConfigurationApp.port;
     this.app = express();
     this.httpServer = http.createServer(this.app);
-    this.initializeDb();
+    //this.initializeDb();
     this.initializeMiddlewares();
     this.initializeRouters(this.routers);
 

@@ -7,6 +7,9 @@
         "start": "nodemon --watch src --ext ts --exec ts-node --ignore '*.test.ts' --delay 1 src/index.ts",
         "build": "tsc"
     },
+    "engines": {
+        "node": "10.x"
+    },
     "repository": {
         "type": "git",
         "url": "git+https://github.com/jeffersonaguilar/pos-api.git"
