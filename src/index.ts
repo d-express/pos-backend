@@ -24,7 +24,6 @@ process.on('SIGHUP', async () => {
 
 process.once('SIGUSR2', async () => { 
   server.gracefulShutdown('SIGUSR2').then(() => {
-    logger.debug('nodemon restart');
     process.kill(process.pid, 'SIGUSR2');
   });
 });

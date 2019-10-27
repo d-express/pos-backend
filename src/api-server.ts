@@ -17,7 +17,7 @@ export class Server {
   private httpServer: http.Server;
 
   public routers = [
-    
+
   ];
 
   private constructor() {

@@ -1,7 +1,7 @@
 {
-    "name": "api-template",
+    "name": "api-dexpress",
     "version": "1.0.0",
-    "description": "Este repositorio es el template de API",
+    "description": "Este repositorio es el API de D-Express",
     "main": "index.js",
     "scripts": {
         "start": "nodemon --watch src --ext ts --exec ts-node --ignore '*.test.ts' --delay 1 src/index.ts",
@@ -9,14 +9,14 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/AlunideasTeam/TemplateAPI.git"
+        "url": "git+https://github.com/jeffersonaguilar/pos-api.git"
     },
     "author": "",
     "license": "ISC",
     "bugs": {
-        "url": "https://github.com/AlunideasTeam/TemplateAPI/issues"
+        "url": "https://github.com/jeffersonaguilar/pos-api/issues"
     },
-    "homepage": "https://github.com/AlunideasTeam/TemplateAPI#readme",
+    "homepage": "https://github.com/jeffersonaguilar/pos-api#readme",
     "dependencies": {
         "bcryptjs": "^2.4.3",
         "body-parser": "^1.18.3",
