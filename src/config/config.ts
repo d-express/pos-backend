@@ -7,7 +7,7 @@ class ConfigurationApp {
     }
 
     static get database() : string {
-        return process.env.HOST || "mongodb+srv://USERNAME:PASSWORD@cluster0-wjvwc.gcp.mongodb.net/DATABASE"
+        return process.env.HOSTDB || ""
     }
 
     static get seed(): string {

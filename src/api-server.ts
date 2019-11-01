@@ -6,6 +6,8 @@ import mongoose from 'mongoose';
 import ConfigurationApp from './config/config';
 import http from 'http';
 import cColor, * as consoleColor from 'tracer';
+import UserRouter from './router/user.router';
+import AuthRouter from './router/auth.router';
 const logger = cColor.colorConsole({ format : " {{message}} (en {{file}} : {{line}})" });
 
 export class Server {
@@ -17,14 +19,15 @@ export class Server {
   private httpServer: http.Server;
 
   public routers = [
-
+    new UserRouter(),
+    new AuthRouter()
   ];
 
   private constructor() {
     this.port = ConfigurationApp.port;
     this.app = express();
     this.httpServer = http.createServer(this.app);
-    //this.initializeDb();
+    this.initializeDb();
     this.initializeMiddlewares();
     this.initializeRouters(this.routers);
 
@@ -47,7 +50,8 @@ export class Server {
   private async initializeDb() {
     try {
       mongoose.Promise = global.Promise;
-      await mongoose.connect(ConfigurationApp.database, {useNewUrlParser : true, useCreateIndex : true});
+      await mongoose.connect(ConfigurationApp.database, {useNewUrlParser : true, useCreateIndex : true, useUnifiedTopology: true});
+      console.log('conexión con bases de datos OK');
     } catch(error) {
       console.log(error);
       console.log('error de conexión con bases de datos');

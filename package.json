@@ -24,13 +24,14 @@
         "bcryptjs": "^2.4.3",
         "body-parser": "^1.18.3",
         "cors": "^2.8.5",
+        "dotenv": "^8.2.0",
         "express": "^4.16.4",
         "express-jwt": "^5.3.1",
         "jsonwebtoken": "^8.5.1",
         "mongoose": "^5.6.1",
         "ms": "^2.1.2",
-        "typegoose": "^5.6.0",
-        "tracer": "^1.0.1"
+        "tracer": "^1.0.1",
+        "typegoose": "^5.6.0"
     },
     "devDependencies": {
         "@types/bcryptjs": "^2.4.2",

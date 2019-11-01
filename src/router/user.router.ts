@@ -1,8 +1,8 @@
 import { Router, Request, Response } from 'express';
-import TestModel from '../model/test.model';
+import UserModel from '../model/user.model';
 
 export default class UserRouter {
-  public path = '/test';
+  public path = '/users';
   public requiredAuth = false;
   public router = Router();
   private userModel: any;
@@ -13,8 +13,8 @@ export default class UserRouter {
   }
 
   private initialModels() {
-    this.userModel = new TestModel().getModelForClass( TestModel, {
-      schemaOptions: { collection: 'test' }
+    this.userModel = new UserModel().getModelForClass( UserModel, {
+      schemaOptions: { collection: 'users' }
     })
   }
 
@@ -24,7 +24,7 @@ export default class UserRouter {
 
   getUsers = async ( req: Request, res: Response ) => {
     try {
-      return res.status(200).json({});
+      return res.status(200).json(this.userModel.find());
     } catch (error) {
       return res.status(500).json(error);
     }

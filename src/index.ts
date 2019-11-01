@@ -1,5 +1,6 @@
 import  Server  from './api-server';
-
+import dotenv from 'dotenv';
+dotenv.config();
 const server = Server.instance;
 
 server.start();
