@@ -8,6 +8,7 @@ import http from 'http';
 import cColor, * as consoleColor from 'tracer';
 import UserRouter from './router/user.router';
 import AuthRouter from './router/auth.router';
+import ProductRouter from './router/product.router';
 const logger = cColor.colorConsole({ format : " {{message}} (en {{file}} : {{line}})" });
 
 export class Server {
@@ -20,7 +21,8 @@ export class Server {
 
   public routers = [
     new UserRouter(),
-    new AuthRouter()
+    new AuthRouter(),
+    new ProductRouter()
   ];
 
   private constructor() {

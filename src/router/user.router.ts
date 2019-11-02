@@ -3,7 +3,7 @@ import UserModel from '../model/user.model';
 
 export default class UserRouter {
   public path = '/users';
-  public requiredAuth = false;
+  public requiredAuth = true;
   public router = Router();
   private userModel: any;
 
