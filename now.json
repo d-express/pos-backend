@@ -2,6 +2,6 @@
     "name": "api-dexpress",
     "version": 2,
     "builds": [{ "src": "src/index.ts", "use": "@now/node" }],
-    "routes": [{ "src": "/*", "dest": "src/index.ts" }],
+    "routes": [{ "src": "^/(.*)", "dest": "src/index.ts" }],
     "env": {}
 }
