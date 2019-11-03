@@ -12,21 +12,21 @@ export default class UserRouter {
     this.initializeRoutes();
   }
 
-  private initialModels() {
-    this.userModel = new UserModel().getModelForClass( UserModel, {
-      schemaOptions: { collection: 'users' }
-    })
+  private initialModels(): void {
+    this.userModel = new UserModel().getModelForClass(UserModel, {
+      schemaOptions: { collection: 'users' },
+    });
   }
 
-  public initializeRoutes() {
+  public initializeRoutes(): void {
     this.router.get(`/`, this.getUsers);
   }
 
-  getUsers = async ( req: Request, res: Response ) => {
+  getUsers = async (req: Request, res: Response): Promise<Response> => {
     try {
       return res.status(200).json(this.userModel.find());
     } catch (error) {
       return res.status(500).json(error);
     }
-  }
+  };
 }
