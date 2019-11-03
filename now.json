@@ -1,9 +1,13 @@
 {
-    "name": "api-dexpress",
-    "alias": "api.dexpress.app",
-    "version": 5,
+    "name": "pos-api",
+    "alias": ["api.dexpress.app"],
+    "version": 2,
     "builds": [{ "src": "src/index.ts", "use": "@now/node" }],
     "routes": [{ "src": "^/(.*)", "dest": "src/index.ts" }],
+    "github": {
+        "enabled": true,
+        "autoAlias": false
+    },
     "env": {
         "HOSTDB": "@host-db"
     }
