@@ -25,7 +25,7 @@ export default class AuthRouter extends RouterApp {
     this.router.post(`/login`, this.login);
   }
 
-  login = async (req: Request, res: Response) => {
+  login = async (req: Request, res: Response): Promise<Response> => {
     try {
       const { userLogin, password } = req.body;
       const user = await this.userModel.findOne({ email: userLogin });
