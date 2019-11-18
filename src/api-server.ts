@@ -10,6 +10,7 @@ import UserRouter from './router/user.router';
 import AuthRouter from './router/auth.router';
 import ProductRouter from './router/product.router';
 import { NextFunction, ErrorHandleFunction } from 'connect';
+import CategoryRouter from './router/category.router';
 const logger = cColor.colorConsole({ format: ' {{message}} (en {{file}} : {{line}})' });
 
 export class Server {
@@ -19,7 +20,7 @@ export class Server {
 
   private httpServer: http.Server;
 
-  public routers = [new UserRouter(), new AuthRouter(), new ProductRouter()];
+  public routers = [new UserRouter(), new AuthRouter(), new ProductRouter(), new CategoryRouter()];
 
   private constructor() {
     this.port = ConfigurationApp.port;

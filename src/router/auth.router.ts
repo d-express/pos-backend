@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import { getModelForClass } from '@typegoose/typegoose';
 import UserModel from '../model/user.model';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
@@ -16,9 +17,7 @@ export default class AuthRouter extends RouterApp {
   }
 
   initialModels(): void {
-    this.userModel = new UserModel().getModelForClass(UserModel, {
-      schemaOptions: { collection: 'users' },
-    });
+    this.userModel = getModelForClass(UserModel);
   }
 
   public initializeRoutes(): void {
@@ -28,7 +27,7 @@ export default class AuthRouter extends RouterApp {
   login = async (req: Request, res: Response): Promise<Response> => {
     try {
       const { userLogin, password } = req.body;
-      const user = await this.userModel.findOne({ email: userLogin });
+      const user = await this.userModel.findEmail(userLogin);
       if (user) {
         if (bcrypt.compareSync(password, user.password)) {
           const token = jwt.sign(

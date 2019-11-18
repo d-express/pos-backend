@@ -1,6 +1,7 @@
-import { Typegoose, prop } from 'typegoose';
+import { prop, ReturnModelType, modelOptions } from '@typegoose/typegoose';
 
-export default class UserModel extends Typegoose {
+@modelOptions({ schemaOptions: { collection: 'users' } })
+export default class UserModel {
   @prop({ required: true, index: true })
   email!: string;
 
@@ -12,4 +13,9 @@ export default class UserModel extends Typegoose {
 
   @prop({ required: true })
   password?: string;
+
+  public static findEmail(this: ReturnModelType<typeof UserModel>, email: string): Promise<any> {
+    // this is an Instance Method
+    return this.findOne({ email }).exec(); // thanks to "ReturnModelType" "this" has type infomation
+  }
 }
