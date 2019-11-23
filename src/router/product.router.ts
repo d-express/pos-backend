@@ -16,6 +16,7 @@ export default class ProductRouter extends RouterApp {
     this.router.get(`/image/:id`, this.getImageProduct);
     this.router.get(`/:id`, this.getProductById);
     this.router.get(`/`, this.getAllProducts);
+    this.router.get(`/category/:id`, this.getAllProductsByCategory);
     this.router.post('/', this.createProducts);
     this.router.post('/:id/price', this.addPriceToProduct);
     this.router.put('/price/:id', this.modifyPriceToProduct);
@@ -36,6 +37,21 @@ export default class ProductRouter extends RouterApp {
       const product = await instanceProductModel.getProductById(id);
       if (product && product.length >= 1) {
         return res.status(200).json(product[0]);
+      } else {
+        return res.status(404).json({ error: 'registro no existe' });
+      }
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json(error);
+    }
+  };
+
+  getAllProductsByCategory = async (req: Request, res: Response): Promise<Response> => {
+    try {
+      const id: string = req.params.id;
+      const product = await instanceProductModel.getProductByCategory(id);
+      if (product && product.length >= 1) {
+        return res.status(200).json(product);
       } else {
         return res.status(404).json({ error: 'registro no existe' });
       }

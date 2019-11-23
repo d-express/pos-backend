@@ -82,6 +82,7 @@ class ProductModel extends TimeStamps {
           createdAt: 1,
           updatedAt: 1,
           __v: 1,
+          categoryId: '$categoryName._id',
           category: '$categoryName.name',
           prices: '$pricesList',
         },
@@ -94,6 +95,53 @@ class ProductModel extends TimeStamps {
       {
         $match: {
           _id: new ObjectId(idProduct),
+        },
+      },
+      {
+        $lookup: {
+          from: 'category',
+          localField: 'category',
+          foreignField: '_id',
+          as: 'categoryName',
+        },
+      },
+      {
+        $unwind: '$categoryName',
+      },
+      {
+        $lookup: {
+          from: 'prices',
+          localField: 'prices',
+          foreignField: '_id',
+          as: 'pricesList',
+        },
+      },
+      {
+        $project: {
+          _id: 1,
+          tags: 1,
+          name: 1,
+          description: 1,
+          price: 1,
+          type: 1,
+          sku: 1,
+          manageExistence: 1,
+          tax: 1,
+          createdAt: 1,
+          updatedAt: 1,
+          __v: 1,
+          category: '$categoryName.name',
+          prices: '$pricesList',
+        },
+      },
+    ]).exec();
+  }
+
+  static async getProductByCategory(this: ModelType<ProductModel>, idCategory: string): Promise<any> {
+    return this.aggregate([
+      {
+        $match: {
+          category: new ObjectId(idCategory),
         },
       },
       {
