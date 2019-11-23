@@ -5,7 +5,5 @@ export default abstract class RouterApp {
   public requiredAuth = false;
   public router = Router();
 
-  abstract initialModels(): void;
-
   abstract initializeRoutes(): void;
 }

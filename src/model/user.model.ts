@@ -1,8 +1,9 @@
-import { prop, ReturnModelType, modelOptions } from '@typegoose/typegoose';
+import { prop, ReturnModelType, modelOptions, getModelForClass, Ref } from '@typegoose/typegoose';
+import { CompanyModel } from './company.model';
 
 @modelOptions({ schemaOptions: { collection: 'users' } })
-export default class UserModel {
-  @prop({ required: true, index: true })
+export class UserModel {
+  @prop({ required: true, index: true, unique: true })
   email!: string;
 
   @prop({ required: true })
@@ -14,8 +15,12 @@ export default class UserModel {
   @prop({ required: true })
   password?: string;
 
+  @prop({ ref: CompanyModel })
+  company?: Ref<CompanyModel>;
+
   public static findEmail(this: ReturnModelType<typeof UserModel>, email: string): Promise<any> {
-    // this is an Instance Method
-    return this.findOne({ email }).exec(); // thanks to "ReturnModelType" "this" has type infomation
+    return this.findOne({ email }).exec();
   }
 }
+
+export const instanceUserModel = getModelForClass(UserModel);

@@ -10,4 +10,4 @@ export class PriceModel extends TimeStamps {
   description?: string;
 }
 
-export default getModelForClass(PriceModel);
+export const instancePriceModel = getModelForClass(PriceModel);

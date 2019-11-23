@@ -1,10 +1,21 @@
 import { prop, getModelForClass, modelOptions } from '@typegoose/typegoose';
 import { TimeStamps } from '@typegoose/typegoose/lib/defaultClasses';
 
+class ImageModel {
+  @prop({})
+  public contentType?: string;
+
+  @prop({})
+  public image?: string;
+}
+
 @modelOptions({ schemaOptions: { collection: 'category' } })
 export class CategoryModel extends TimeStamps {
   @prop({ required: true, index: true })
   name?: string;
+
+  @prop({ _id: false })
+  public image!: ImageModel;
 }
 
-export default getModelForClass(CategoryModel);
+export const instanceCategoryModel = getModelForClass(CategoryModel);

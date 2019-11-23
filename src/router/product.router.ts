@@ -1,19 +1,19 @@
-import PriceModel from './../model/price.model';
+import { instancePriceModel } from './../model/price.model';
 import { Router, Request, Response } from 'express';
-import ProductModel from '../model/product.model';
+import { instanceProductModel } from '../model/product.model';
 import { ObjectId } from 'mongodb';
+import RouterApp from './router.app';
 
-export default class ProductRouter {
-  public path = '/products';
-  public requiredAuth = false;
-  public router = Router();
-
+export default class ProductRouter extends RouterApp {
   constructor() {
+    super();
+    this.path = '/products';
     this.initializeRoutes();
   }
 
   public initializeRoutes(): void {
     this.router.get(`/search`, this.searchProducts);
+    this.router.get(`/image/:id`, this.getImageProduct);
     this.router.get(`/:id`, this.getProductById);
     this.router.get(`/`, this.getAllProducts);
     this.router.post('/', this.createProducts);
@@ -24,7 +24,7 @@ export default class ProductRouter {
 
   getAllProducts = async (req: Request, res: Response): Promise<Response> => {
     try {
-      return res.status(200).json(await ProductModel.getItems());
+      return res.status(200).json(await instanceProductModel.getItems());
     } catch (error) {
       return res.status(500).json(error);
     }
@@ -33,7 +33,7 @@ export default class ProductRouter {
   getProductById = async (req: Request, res: Response): Promise<Response> => {
     try {
       const id: string = req.params.id;
-      const product = await ProductModel.getProductById(id);
+      const product = await instanceProductModel.getProductById(id);
       if (product && product.length >= 1) {
         return res.status(200).json(product[0]);
       } else {
@@ -54,7 +54,7 @@ export default class ProductRouter {
         query += `.*${arrayParameters[i]}`;
       }
       query = new RegExp(query);
-      const currentDoc = await ProductModel.find({
+      const currentDoc = await instanceProductModel.find({
         $or: [{ name: { $regex: query } }, { description: { $regex: query, $options: 'i' } }],
       });
       return res.status(200).json(currentDoc);
@@ -69,29 +69,59 @@ export default class ProductRouter {
       const price = product.price;
       delete product.price;
       product.prices = [];
-      const priceProduct = await PriceModel.create(price);
+      const priceProduct = await instanceProductModel.create(price);
       product.prices.push(priceProduct._id);
-      const productCreated = await ProductModel.create(product);
+      const productCreated = await instanceProductModel.create(product);
       return res.status(200).json(productCreated);
     } catch (error) {
       return res.status(500).json({ error: 'ha ocurrido un error' });
     }
   };
 
+  getImageProduct = async (req: Request, res: Response): Promise<void> => {
+    const id = req.params.id;
+    try {
+      const document = await instanceProductModel.findById(id);
+      if (!document) {
+        res.status(404).send({
+          message: 'No se encontró ningún evento con ese código',
+        });
+        return;
+      }
+      const img = Buffer.from(document.image!.image!, 'base64');
+      res.writeHead(200, {
+        'Content-Type': document.image!.contentType,
+        'Content-Length': img.length,
+      });
+      res.end(img);
+    } catch (error) {
+      console.log(error);
+      res.status(500).send({
+        message: 'Hubo un error al mometo de devolver el PDF',
+        error: error,
+      });
+      return;
+    }
+  };
+
   addPriceToProduct = async (req: Request, res: Response): Promise<Response> => {
     try {
       const productId = req.params.id;
-      const currentProduct = await ProductModel.findById(new ObjectId(productId));
+      const currentProduct = await instanceProductModel.findById(new ObjectId(productId));
       if (!currentProduct) {
         return res.status(404).json({ message: 'Objeto no encontrado' });
       }
       const productPrices = currentProduct.prices;
       if (productPrices) {
-        const price = await PriceModel.create(req.body);
+        const price = await instancePriceModel.create(req.body);
         productPrices.push(price._id);
-        const productUpdated = await ProductModel.findOneAndUpdate({ _id: new ObjectId(productId) }, currentProduct, {
-          new: true,
-        });
+        const productUpdated = await instanceProductModel.findOneAndUpdate(
+          { _id: new ObjectId(productId) },
+          currentProduct,
+          {
+            new: true,
+          },
+        );
         return res.status(200).json(productUpdated);
       }
       return res.status(404).json({ message: 'Objeto no encontrado' });
@@ -106,7 +136,7 @@ export default class ProductRouter {
       delete currentProduct.createdAt;
       delete currentProduct.updatedAt;
       delete currentProduct.__v;
-      const currentDoc = await ProductModel.findOneAndUpdate({ _id: new ObjectId(req.body._id) }, req.body, {
+      const currentDoc = await instanceProductModel.findOneAndUpdate({ _id: new ObjectId(req.body._id) }, req.body, {
         new: true,
       });
       return res.status(200).json(currentDoc);
@@ -119,7 +149,7 @@ export default class ProductRouter {
     try {
       const currentPrice = req.params.id;
       const price = req.body;
-      const currentDoc = await PriceModel.findOneAndUpdate({ _id: new ObjectId(currentPrice) }, price, {
+      const currentDoc = await instanceProductModel.findOneAndUpdate({ _id: new ObjectId(currentPrice) }, price, {
         new: true,
       });
       return res.status(200).json(currentDoc);

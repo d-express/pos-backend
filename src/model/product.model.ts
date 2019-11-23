@@ -4,6 +4,14 @@ import { Ref, ModelType } from '@typegoose/typegoose/lib/types';
 import { CategoryModel } from './category.model';
 import { PriceModel } from './price.model';
 import { ObjectId } from 'bson';
+
+class ImageModel {
+  @prop({})
+  public contentType?: string;
+
+  @prop({})
+  public image?: string;
+}
 @modelOptions({ schemaOptions: { collection: 'products' } })
 class ProductModel extends TimeStamps {
   @prop({ required: true, index: true })
@@ -35,6 +43,9 @@ class ProductModel extends TimeStamps {
 
   @prop({ required: true })
   tax?: number;
+
+  @prop({ _id: false })
+  public image!: ImageModel;
 
   static async getItems(this: ModelType<ProductModel>): Promise<any> {
     return this.aggregate([
@@ -126,4 +137,4 @@ class ProductModel extends TimeStamps {
   }
 }
 
-export default getModelForClass(ProductModel);
+export const instanceProductModel = getModelForClass(ProductModel);

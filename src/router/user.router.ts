@@ -1,11 +1,10 @@
 import { Router, Request, Response } from 'express';
+import RouterApp from './router.app';
 
-export default class UserRouter {
-  public path = '/users';
-  public requiredAuth = false;
-  public router = Router();
-
+export default class UserRouter extends RouterApp {
   constructor() {
+    super();
+    this.path = '/users';
     this.initializeRoutes();
   }
 
