@@ -11,7 +11,7 @@ class ImageModel {
 
 @modelOptions({ schemaOptions: { collection: 'category' } })
 export class CategoryModel extends TimeStamps {
-  @prop({ required: true, index: true })
+  @prop({ required: true, index: true, set: (val: string) => val.toLowerCase(), get: (val: string) => val })
   name?: string;
 
   @prop({ _id: false })

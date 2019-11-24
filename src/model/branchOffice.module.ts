@@ -4,10 +4,10 @@ import { CompanyModel } from './company.model';
 
 @modelOptions({ schemaOptions: { collection: 'branch_offices' } })
 export class BranchOfficeModel extends TimeStamps {
-  @prop({ required: true, index: true })
+  @prop({ required: true, set: (val: string) => val.toLowerCase(), get: (val: string) => val })
   name?: string;
 
-  @prop({ ref: CompanyModel })
+  @prop({ ref: CompanyModel, required: true })
   company?: Ref<CompanyModel>;
 }
 

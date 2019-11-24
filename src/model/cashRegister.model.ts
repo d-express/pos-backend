@@ -4,11 +4,11 @@ import { BranchOfficeModel } from './branchOffice.module';
 
 @modelOptions({ schemaOptions: { collection: 'cash_register' } })
 export class CashRegisterModel extends TimeStamps {
-  @prop({ required: true, index: true })
+  @prop({ required: true, set: (val: string) => val.toLowerCase(), get: (val: string) => val })
   name?: string;
 
-  @prop({ ref: BranchOfficeModel })
-  branchOffices?: Ref<BranchOfficeModel>;
+  @prop({ ref: BranchOfficeModel, required: true })
+  branchOffice?: Ref<BranchOfficeModel>;
 }
 
 export const instanceCashRegisterModel = getModelForClass(CashRegisterModel);

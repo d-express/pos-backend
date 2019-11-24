@@ -6,7 +6,7 @@ export class PriceModel extends TimeStamps {
   @prop({ required: true })
   value!: number;
 
-  @prop({ required: true })
+  @prop({ required: true, set: (val: string) => val.toLowerCase(), get: (val: string) => val })
   description?: string;
 }
 

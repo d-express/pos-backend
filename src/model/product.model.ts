@@ -14,19 +14,19 @@ class ImageModel {
 }
 @modelOptions({ schemaOptions: { collection: 'products' } })
 class ProductModel extends TimeStamps {
-  @prop({ required: true, index: true })
+  @prop({ required: true, index: true, set: (val: string) => val.toLowerCase(), get: (val: string) => val })
   name?: string;
 
-  @prop({ required: true })
+  @prop({ required: true, set: (val: string) => val.toLowerCase(), get: (val: string) => val })
   description?: string;
 
   @arrayProp({ itemsRef: PriceModel })
   prices?: Ref<PriceModel>[];
 
-  @prop({ required: true })
+  @prop({ required: true, set: (val: string) => val.toLowerCase(), get: (val: string) => val })
   type?: string;
 
-  @prop({ required: true, index: true })
+  @prop({ required: true, index: true, set: (val: string) => val.toLowerCase(), get: (val: string) => val })
   sku?: string;
 
   @prop({ required: false })
