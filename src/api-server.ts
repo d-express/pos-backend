@@ -12,6 +12,7 @@ import ProductRouter from './router/product.router';
 import { NextFunction, ErrorHandleFunction } from 'connect';
 import CategoryRouter from './router/category.router';
 import CustomerRouter from './router/customer.router';
+import OrderRouter from './router/order.router';
 const logger = cColor.colorConsole({ format: ' {{message}} (en {{file}} : {{line}})' });
 
 export class Server {
@@ -25,6 +26,7 @@ export class Server {
     new ProductRouter(),
     new CategoryRouter(),
     new CustomerRouter(),
+    new OrderRouter(),
   ];
 
   private constructor() {
