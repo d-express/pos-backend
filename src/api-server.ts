@@ -11,16 +11,21 @@ import AuthRouter from './router/auth.router';
 import ProductRouter from './router/product.router';
 import { NextFunction, ErrorHandleFunction } from 'connect';
 import CategoryRouter from './router/category.router';
+import CustomerRouter from './router/customer.router';
 const logger = cColor.colorConsole({ format: ' {{message}} (en {{file}} : {{line}})' });
 
 export class Server {
   private static _intance: Server;
   public app: express.Application;
   public port: number;
-
   private httpServer: http.Server;
-
-  public routers = [new UserRouter(), new AuthRouter(), new ProductRouter(), new CategoryRouter()];
+  public routers = [
+    new UserRouter(),
+    new AuthRouter(),
+    new ProductRouter(),
+    new CategoryRouter(),
+    new CustomerRouter(),
+  ];
 
   private constructor() {
     this.port = ConfigurationApp.port;
